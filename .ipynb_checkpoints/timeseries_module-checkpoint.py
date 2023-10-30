@@ -12,7 +12,7 @@ def fit_timeseries(tlist,ylist):
     return velocity, uncertainty
 
 def fit_velocities(filename):
-    dset = pd.read_csv(filename, delim_whitespace=True)
+    dataset = pd.read_csv(filename, sep='\s+')
     
     change_east = dset['__east(m)']
     change_north = dset['_north(m)']
@@ -25,7 +25,7 @@ def fit_velocities(filename):
     return e_velocity, e_uncertainty, n_velocity, n_uncertainty, u_velocity, u_uncertainty
 
 def get_coordinates(filename):
-    dset = pd.read_csv(filename, delim_whitespace=True)
+    dset = pd.read_csv(filename, sep='\s+')
     
     latlist = dset['_latitude(deg)']
     lonlist = dset['_longitude(deg)']
@@ -39,10 +39,11 @@ def get_coordinates(filename):
     return avg_lat, avg_lon, avg_height
 
 def fit_all_velocities(folder,pattern):
-    results = []
-    local_file_list = glob.glob(folder + '/' pattern)
     
-    print('Bug tracker!')
+    print('test!')
+    results = []
+    local_file_list = glob.glob(folder + '/' + pattern)
+    print(local_file_list)
     
     for file in local_file_list:
         filename = os.path.basename(file)
@@ -50,8 +51,6 @@ def fit_all_velocities(folder,pattern):
         coordinates = get_coordinates(file)
         velocities = fit_velocities(file)
         dset = pd.read_csv(filename, delim_whitespace=True)
-        
-        print('Bug spacer!')
         
         site_info = {
             'sitename': sitename,
