@@ -1,4 +1,8 @@
 from scipy import stats
+import glob
+import pandas as pd
+import os
+import numpy as np
 
 def fit_timeseries(tlist,ylist):
     slope, intercept, r_value, p_value, std_err = stats.linregress(tlist, ylist)
@@ -36,14 +40,18 @@ def get_coordinates(filename):
 
 def fit_all_velocities(folder,pattern):
     results = []
-    file_list = glob.glob('/Users/jasonboryszewski/Downloads/timeseries/*.tenv3')
+    local_file_list = glob.glob(folder + '/' pattern)
     
-    for file in file_list:
+    print('Bug tracker!')
+    
+    for file in local_file_list:
         filename = os.path.basename(file)
         sitename = filename.split('.')[0]
         coordinates = get_coordinates(file)
         velocities = fit_velocities(file)
         dset = pd.read_csv(filename, delim_whitespace=True)
+        
+        print('Bug spacer!')
         
         site_info = {
             'sitename': sitename,
